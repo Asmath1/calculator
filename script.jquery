@@ -1,4 +1,3 @@
-var buttons=document.getElementsByTagName("button");
 var inputString ="";
 var outputString="";
 var operantsArray= [];
@@ -6,13 +5,8 @@ var operatorArray= [];
 var isLastOperator= true;
 var isLastAnswer = false;
 
-
- for(var i=0;i<buttons.length;i++){
-     buttons[i].addEventListener("click",callAction)
- }
-
- document.getElementsByClassName("reset-button")[0]
- .addEventListener("click", resetAll);
+$("button").click(callAction);
+$(".reset-button").click(resetAll);
 
  function resetAll(){
     inputString ="";
@@ -25,20 +19,23 @@ var isLastAnswer = false;
      isLastAnswer= false;
 
  }
+ function callAction(){
+    $(this).css({
+        "background-color":"gray",
+        Color:"white",
+    });
 
- function callAction(event){
-    var button= event.target;
-
-    button.style.backgroundColor= "gray";
-    button.style.Color= "white";
-    setTimeout(function(){
-    button.style.backgroundColor= null;
-    button.style.Color= null;
-    },300)
-
-    var value = event.target.innerHTML;
-    var actionType = button
-    .classList[0] === "red-text"? "operator" : "operants";
+    setTimeout(
+        function(button){
+            $(button).attr("style","");
+        },
+        300,
+        this
+    );
+  
+    var value = $(this).text();
+    var actionType = 
+    $(this).attr("class") === "red-text"? "operator" : "operants";
     if(value=== "="){
         calculateAnswer()
     }
@@ -53,24 +50,12 @@ var isLastAnswer = false;
  }
 
  function printInput(){
-    document.getElementsByClassName("input")[0]
-    .innerHTML = inputString || 0;
+     $(".input").text(inputString || 0);
+    
  }
 
 function printOutput(){
-        document.getElementsByClassName("output")[0]
-        .innerHTML = outputString || 0;
-
-
-    // if(inputString === "")
-    // {
-    //     document.getElementsByClassName("input")[0]
-    //     .innerHTML = 0;
-    
-    // } 
-    // else{
-    //     document.getElementsByClassName("input")[0]
-    //     .innerHTML= inputString;
+        $(".output").text(outputString|| 0);
 }
 
 function addInput(actionType,value)
